@@ -5,10 +5,6 @@
             CIGroup Pokemon Challenge
         </h1>
         <span class="pt-6 text-4xl text-blue-600">By Keith Gichovi :)</span>
-
-        <button class="bg-blue-500 mt-6 p-4 rounded-2xl text-white hover:bg-blue-700">
-            <router-link to="/register">Get Started</router-link>
-        </button>
     </div>
 </template>
 

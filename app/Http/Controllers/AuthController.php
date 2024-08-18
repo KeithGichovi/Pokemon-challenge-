@@ -66,10 +66,9 @@ class AuthController extends Controller
             ]);
         }
 
-        // Authentication failed
         return response()->json([
             'message' => 'The provided credentials do not match our records.',
-        ], 401); // 401 Unauthorized status code
+        ], 401);
     }
 
     public function Logout(Request $request) {

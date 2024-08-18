@@ -11,6 +11,15 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build:{
+        manifest: true,
+        outDir: "public/build",
+        rollupOptions: {
+            input: {
+              main: 'resources/js/app.js',
+            },
+          }
+    },
     resolve: {
         alias: {
             vue: "vue/dist/vue.esm-bundler.js",
