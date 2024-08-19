@@ -7,7 +7,7 @@
     </div>
 
     <!-- DataTable -->
-    <div v-else class="mx-auto max-w-[1300px]">
+    <div v-else class="mx-auto min-w-[1400px]">
       <v-data-table
         :headers="headers"
         :items="paginatedPokemonData"
@@ -43,7 +43,7 @@
 
       </v-data-table>
     </div>
-    
+
   </div>
 </template>
 
@@ -102,6 +102,6 @@
       itemsPerPage(){
         this.page = 1;
       }
-    } 
+    }
   };
 </script>
