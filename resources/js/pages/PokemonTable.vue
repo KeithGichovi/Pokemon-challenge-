@@ -17,6 +17,7 @@
         show-select
         class="min-w-full"
         style="table-layout: fixed;"
+
       >
         <!-- Slot for rendering the GIF column -->
         <template v-slot:item.gif_link="{ item }">
