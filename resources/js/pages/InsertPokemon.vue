@@ -53,20 +53,17 @@ export default {
                 if (!file) {
                     throw new Error('No file selected');
                 }
-
                 // create a new FormData object
                 const formData = new FormData();
                 // append the file to the FormData object
                 formData.append('pokemon_csv', file);
-
                 // send the file to the server
                 await axios.post('/api/insertPokemoncsv', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     }
                 });
-
                 // Show success message and redirect
                 this.errorMessage = 'Pokemon CSV uploaded successfully';
                 setTimeout(() => {

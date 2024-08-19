@@ -18,13 +18,14 @@ Route::post('/login', [AuthController::class, 'Login']);
 
 
 // Route::middleware([Authentication::class])->group(function() {
-//     // Route::post('/insertPokemoncsv', [PokemonController::class, 'insertPokemoncsv']);
-//     Route::get('/displayPokemon', [PokemonController::class, 'displayPokemon']);
+//     Route::post('/insertPokemoncsv', [PokemonController::class, 'insertPokemoncsv']);
 //     Route::get('/logout', [AuthController::class, 'Logout']);
 // });
 
+
+//
 Route::post('/insertPokemoncsv', [PokemonController::class, 'insertPokemoncsv']);
-
+//
 Route::get('/displayPokemon', [PokemonController::class, 'displayPokemon']);
-
-Route::get('/specificPokemon/{id}', [PokemonController::class, 'specificPokemon']);
+//
+//Route::get('/specificPokemon/{id}', [PokemonController::class, 'specificPokemon']);
