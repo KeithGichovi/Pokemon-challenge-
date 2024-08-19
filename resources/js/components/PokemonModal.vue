@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-if="isVisible" class="flex flex-col w-50 rounded-lg justify-center items-center h-[300px]" @click:outside="closeModal">
+    <v-dialog v-if="isVisible" class=" flex flex-col w-50 rounded-lg justify-center items-center h-[300px]" @click:outside="closeModal">
         <v-card>
             <v-card-title class="text-3xl text-gray-700">{{ name }}</v-card-title>
         </v-card>
@@ -95,7 +95,7 @@ export default {
             attack: 0,
             speed: 0,
             specialAttack: 0,
-            gifLink: '' 
+            gifLink: ''
         }
     },
     watch: {

@@ -1,96 +1,107 @@
 <template>
-    <Navbar/>
-    <div class="flex flex-col items-center mt-20 h-screen px-4">
-        <div class="w-full max-w-7xl mx-auto items-center justify-center" v-if="pokemonData.length == 0">
-            <h1 class="text-5xl text-blue-500">No Pokemon data yet.</h1>
-        </div>
-        <div class="w-full max-w-7xl mx-auto" v-else>
-            <!-- <table class="min-w-full divide-y divide-gray-200 bg-white shadow-md rounded-lg">
-                <thead class="bg-blue-500 text-white">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Pokemon</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Type 1</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Type 2</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Attack</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Speed</th>
-                        <th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">More Details</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-for="pokemon in pokemonData" :key="pokemon.id">
-                        <td class="px-6 py-4 whitespace-nowrap">{{ pokemon.name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ pokemon.type1 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ pokemon.type2 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ pokemon.Attack }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ pokemon.Speed }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <button class="text-blue-500 hover:text-blue-700" @click="handleModal(pokemon.id)">More Details</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
-            <v-data-table
-                :items="pokemonData"
-                :headers="[
-                    { text: 'Pokemon', value: 'name', filterable: true },
-                    { text: 'Type 1', value: 'type1', filterable: true },
-                    { text: 'Type 2', value: 'type2', filterable: true },
-                    { text: 'Attack', value: 'Attack', filterable: true },
-                    { text: 'Speed', value: 'Speed', filterable: true },
-                    { text: 'More Details', value: 'id' },
-                ]"
-                item-key="id"
-                :search="search"
-                :items-per-page="10"
-                class="elevation-1 px-6 py-4 whitespace-nowrap"
-                :filter="filter"
-            >
-            </v-data-table>
-        </div>
-        <!-- <PokemonModal
-            v-if="showModal"
-            :id="selectedPokemonId"
-            :isVisible="showModal"
-            @update:isVisible="showModal = $event"
-        /> -->
+  <Navbar />
+  <div class="flex flex-col items-center justify-center min-h-screen py-8 px-4">
+    <!-- No data message -->
+    <div v-if="pokemonData.length === 0" class="w-full max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl md:text-5xl text-blue-500 font-bold">No Pokemon data yet.</h1>
     </div>
+
+    <!-- DataTable -->
+    <div v-else class="mx-auto max-w-[1300px]">
+      <v-data-table
+        :headers="headers"
+        :items="paginatedPokemonData"
+        :items-per-page="itemsPerPage"
+        :single-select="true"
+        item-key="name"
+        show-select
+        class="min-w-full"
+        style="table-layout: fixed;"
+      >
+        <!-- Slot for rendering the GIF column -->
+        <template v-slot:item.gif_link="{ item }">
+          <v-img :src="item.gif_link" max-height="50" max-width="50" />
+        </template>
+
+        <!--- pagination --->
+        <template v-slot:bottom>
+            <div class="flex justify-between items-center py-3">
+                <v-select
+                  v-model="itemsPerPage"
+                  :items="[10, 25, 50, 100]"
+                  label="Items per page"
+                  dense
+                  hide-details
+                  class="max-w-[150px]"
+                ></v-select>
+                <v-pagination
+                  v-model="page"
+                  :length="pageCount"
+                ></v-pagination>
+            </div>
+        </template>
+
+      </v-data-table>
+    </div>
+    
+  </div>
 </template>
 
 <script>
-    import Navbar from "../components/Navbar.vue";
-    import axios from 'axios';
-    import PokemonModal from "../components/PokemonModal.vue";
-    import { VDataTable } from "vuetify/components";
+  import Navbar from "../components/Navbar.vue";
+  import axios from "axios";
+  import { VDataTable, VImg, VPagination, VSelect } from "vuetify/components";
 
-    export default {
-        name: 'PokemonTable',
-        components: {
-            Navbar,
-            PokemonModal
-        },
-        data() {
-            return {
-                pokemonData: [],
-                showModal: false,
-                selectedPokemonId: null,
-            }
-        },
-        methods: {
-            async fetchPokemonData() {
-                try {
-                    const response = await axios.get('/api/displayPokemon');
-                    this.pokemonData = response.data;
-                } catch (error) {
-                    console.error(error);
-                }
-            },
-            handleModal(id) {
-                this.selectedPokemonId = id;
-                this.showModal = true;
-            }
-        },
-        mounted() {
-            this.fetchPokemonData();
-        },
-    }
+  export default {
+    name: "PokemonTable",
+    components: {
+      Navbar,
+      VDataTable,
+      VImg,
+      VPagination,
+      VSelect,
+    },
+    data() {
+      return {
+        pokemonData: [],
+        page: 1,
+        itemsPerPage: 10,
+        headers: [
+          { title: "Pokemon", value: "name", sortable: true },
+          { title: "Type 1", value: "type1", sortable: true },
+          { title: "Type 2", value: "type2", sortable: true },
+          { title: "Attack", value: "Attack", sortable: true },
+          { title: "GIF", value: "gif_link", sortable: false },
+        ],
+      };
+    },
+    methods: {
+      async fetchPokemonData() {
+        try {
+          const response = await axios.get("/api/displayPokemon");
+          this.pokemonData = response.data;
+        } catch (error) {
+          console.error("Failed to fetch Pokémon data:", error);
+        }
+      },
+    },
+    mounted() {
+      this.fetchPokemonData();
+    },
+    computed: {
+      pageCount() {
+        return Math.ceil(this.pokemonData.length / this.itemsPerPage)
+      },
+      paginatedPokemonData(){
+        const start = (this.page - 1) * this.itemsPerPage;
+        const end = start + this.itemsPerPage;
+        return this.pokemonData.slice(start, end);
+      }
+    },
+    watch: {
+      itemsPerPage(){
+        this.page = 1;
+      }
+    } 
+  };
 </script>

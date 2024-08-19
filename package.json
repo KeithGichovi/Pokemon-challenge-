@@ -17,6 +17,7 @@
         "@heroicons/vue": "^2.1.5",
         "@vitejs/plugin-vue": "^5.1.2",
         "oh-vue-icons": "^1.0.0-rc3",
+        "primevue": "^4.0.4",
         "vue": "^3.4.38",
         "vue-router": "^4.4.3",
         "vuetify": "^3.7.0"
