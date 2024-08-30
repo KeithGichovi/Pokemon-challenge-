@@ -6,6 +6,7 @@ import { createVuetify } from "vuetify";
 import App from "./App.vue";
 const vuetify = createVuetify();
 
+
 createApp(App)
     .use(router)
     .use(vuetify)
