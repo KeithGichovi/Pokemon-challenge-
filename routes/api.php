@@ -17,14 +17,14 @@ Route::post('/register', [AuthController::class, 'Register']);
 Route::post('/login', [AuthController::class, 'Login']);
 
 
- Route::middleware([Authentication::class])->group(function() {
-     Route::post('/insertPokemoncsv', [PokemonController::class, 'insertPokemoncsv']);
-     Route::get('/logout', [AuthController::class, 'Logout']);
- });
+//Route::middleware('auth:sanctum')->group(function() {
+//    Route::post('/insertPokemoncsv', [PokemonController::class, 'insertPokemoncsv']);
+//    Route::get('/logout', [AuthController::class, 'logout']);
+//});
 
 
 //
-//Route::post('/insertPokemoncsv', [PokemonController::class, 'insertPokemoncsv']);
+Route::post('/insertPokemoncsv', [PokemonController::class, 'insertPokemoncsv']);
 //
 Route::get('/displayPokemon', [PokemonController::class, 'displayPokemon']);
 //
